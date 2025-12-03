@@ -97,6 +97,26 @@ def hapus_transaksi_terpilih():
     refresh_tabel()
     refresh_ringkasan()
 
+def hapus_semua_transaksi():
+    global transaksi
+    if not transaksi:
+        messagebox.showinfo("Hapus Semua", "Tidak ada transaksi untuk dihapus.")
+        return
+
+    konfirm = messagebox.askyesno("Konfirmasi", "Yakin ingin menghapus semua transaksi?")
+    if not konfirm:
+        return
+
+    transaksi = []  # kosongkan semua transaksi
+
+    simpan_ke_file()
+    refresh_tabel()
+    refresh_ringkasan()
+
+    messagebox.showinfo("Hapus Semua", "Semua transaksi berhasil dihapus.")
+
+
+
 def refresh_tabel():
     for row in tree.get_children():
         tree.delete(row)
@@ -197,6 +217,9 @@ btn_tambah.grid(row=6, column=0, columnspan=2, pady=(10, 4), sticky="ew")
 
 btn_hapus = ttk.Button(frame_kiri, text="Hapus Transaksi Terpilih", command=hapus_transaksi_terpilih)
 btn_hapus.grid(row=7, column=0, columnspan=2, sticky="ew")
+
+btn_hapus_semua = ttk.Button(frame_kiri, text="Hapus Semua Transaksi", command=hapus_semua_transaksi)
+btn_hapus_semua.grid(row=8, column=0, columnspan=2, sticky="ew", pady=(5, 0))
 
 frame_kiri.columnconfigure(1, weight=1)
 
